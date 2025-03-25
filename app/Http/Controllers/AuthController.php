@@ -16,6 +16,8 @@ class AuthController extends Controller
 
     public function store(AuthRequest $request){
         $data = $request->validated();
+
+        // dd($data); // Kiểm tra dữ liệu đầu vào
         
         if(!Auth::attempt($data,true)){
             throw ValidationException::withMessages([

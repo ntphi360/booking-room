@@ -7,12 +7,19 @@ use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ListingRequest;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class ListingController extends Controller
+class ListingController extends BaseController
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
+    public function __construct(){
+        $this->authorizeResource(Listing::class,'listing');
+    }
+    
     public function index()
     {
         return inertia('Listings/Index',['listings' => Listing::all()]);
@@ -23,6 +30,7 @@ class ListingController extends Controller
      */
     public function create()
     {
+        // $this->authorize('create',Listing::class);
         return inertia('Listings/Create');
     }
 
@@ -32,7 +40,7 @@ class ListingController extends Controller
     public function store(ListingRequest $request)
     {
         $data = $request->validated();
-        Listing::create( attributes: $data);
+        $request->user()->listings()->create($data); //Get info current user authenticated
 
         return redirect()->route('listings.index')
                         ->with('success','Listing was created!');
@@ -43,6 +51,12 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
+        // if(Auth::user()->cannot('view',$listing)){
+        //     abort(403);
+        // }
+        
+        // $this->authorize('view',$listing);
+      
         return inertia('Listings/Show',['listing' => $listing]);
     }
 

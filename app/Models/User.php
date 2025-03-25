@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Listing;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -45,14 +46,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            // 'password' => 'hashed',
         ];
     }
     protected function password(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value,
-            set: fn($value) => Hash::make($value)
+            // get: fn($value) => $value,
+            // set: fn($value) => Hash::make($value)
+            set: fn($value) => !Hash::needsRehash($value) ? $value : Hash::make($value) // Hash if haven't Hash yet
         );
+    }
+    //Relation
+    public function listings(){
+        return $this->hasMany(Listing::class, 'by_user_id');
     }
 }
