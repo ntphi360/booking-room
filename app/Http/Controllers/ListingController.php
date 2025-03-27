@@ -22,7 +22,8 @@ class ListingController extends BaseController
     
     public function index()
     {
-        return inertia('Listings/Index',['listings' => Listing::all()]);
+        $listing  = Listing::orderByDesc('created_at')->paginate(12);
+        return inertia('Listings/Index',['listings' => $listing]);
     }
 
     /**
