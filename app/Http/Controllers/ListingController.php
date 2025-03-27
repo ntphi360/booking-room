@@ -20,10 +20,19 @@ class ListingController extends BaseController
         $this->authorizeResource(Listing::class,'listing');
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        $listing  = Listing::orderByDesc('created_at')->paginate(12);
-        return inertia('Listings/Index',['listings' => $listing]);
+        return inertia(
+            'Listings/Index',
+            [
+                'filters' => $request->only([
+                    'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo'
+                ]),
+                'listings' => Listing::orderByDesc('created_at')
+                    ->paginate(12 )
+                    ->withQueryString()
+            ]
+        );
     }
 
     /**
@@ -52,12 +61,6 @@ class ListingController extends BaseController
      */
     public function show(Listing $listing)
     {
-        // if(Auth::user()->cannot('view',$listing)){
-        //     abort(403);
-        // }
-        
-        // $this->authorize('view',$listing);
-      
         return inertia('Listings/Show',['listing' => $listing]);
     }
 
