@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         
         Listing::factory(20)->create([
-            'by_user_id' => rand(1, 20)
+            'by_user_id' => 1
         ]);
     }
 }

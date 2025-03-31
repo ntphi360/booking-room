@@ -22,15 +22,13 @@ class ListingController extends BaseController
     
     public function index(Request $request)
     {
-        return inertia(
-            'Listings/Index',
+        $filters = $request->only([ 'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo' ]);
+        $listing = Listing::mostRecent()->filter($filters)->paginate(12)->withQueryString();
+        
+        return inertia('Listings/Index',
             [
-                'filters' => $request->only([
-                    'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo'
-                ]),
-                'listings' => Listing::orderByDesc('created_at')
-                    ->paginate(12 )
-                    ->withQueryString()
+                'filters' => $filters,
+                'listings' => $listing
             ]
         );
     }
