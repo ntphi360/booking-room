@@ -86,11 +86,11 @@ class ListingController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Listing $listing)
-    {
-        $listing->delete();
+    // public function destroy(Listing $listing)
+    // {
+    //     $listing->delete();
  
-        return redirect()->back()
-            ->with('success', 'Listing was deleted!');
-    }
+    //     return redirect()->back()
+    //         ->with('success', 'Listing was deleted!');
+    // }
 }
