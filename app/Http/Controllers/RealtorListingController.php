@@ -17,12 +17,17 @@ class RealtorListingController extends BaseController
      }
     public function index(Request $request) { 
         $filters = [
-            'deleted' => $request->boolean('deleted')
+            'deleted' => $request->boolean('deleted'),
+            ...$request->only(['by','order']),
         ];
+
+        // dd($filters);
         return inertia(
             'Realtor/Index',
             ['listings' => Auth::user()->listings()
-            ->mostRecent()->filter($filters)->get()] 
+            ->mostRecent()
+            ->filter($filters)
+            ->get()] 
         );
     }
     public function destroy(Listing $listing){

@@ -14,6 +14,7 @@ class Listing extends Model
     use HasFactory,SoftDeletes;
     protected $fillable = ['beds','baths','area','city','street','street_nr','code','price'];  
     
+    protected $sortable = ['price','created_at']; 
     // RELATION
     public function owner(){
         return $this->belongsTo(User::class, 'by_user_id');
@@ -47,7 +48,10 @@ class Listing extends Model
         )->when(
             isset($filters['deleted']) && $filters['deleted'],
             fn($query) => $query->withTrashed()
-        ); 
+        )->when(
+            !empty($filters['by']) && in_array($filters['by'], $this->sortable),
+            fn ($query) => $query->orderBy($filters['by'], $filters['order'] ?? 'desc')
+        );
     }
     
 
