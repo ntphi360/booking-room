@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->admin()->create();
         User::factory(10)->create();
         
-        Listing::factory(10)->create([
+        Listing::factory(16)->create([
             'by_user_id' => 1
         ]);
     }

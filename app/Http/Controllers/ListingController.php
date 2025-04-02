@@ -38,8 +38,7 @@ class ListingController extends BaseController
      */
     public function create()
     {
-        // $this->authorize('create',Listing::class);
-        return inertia('Listings/Create');
+       
     }
 
     /**
@@ -47,11 +46,7 @@ class ListingController extends BaseController
      */
     public function store(ListingRequest $request)
     {
-        $data = $request->validated();
-        $request->user()->listings()->create($data); //Get info current user authenticated
-
-        return redirect()->route('listings.index')
-                        ->with('success','Listing was created!');
+         //
     }
 
     /**
@@ -67,7 +62,7 @@ class ListingController extends BaseController
      */
     public function edit(Listing $listing)
     {
-        return inertia('Listings/Edit',['listing' => $listing]);
+        //
     }
 
     /**
@@ -75,22 +70,14 @@ class ListingController extends BaseController
      */
     public function update(ListingRequest $request, Listing $listing)
     {
-        $data = $request->validated();
-        $listing->update($data);
-
-
-        return redirect()->route('listings.index')
-        ->with('success', 'Listing was changed!');
+       //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(Listing $listing)
-    // {
-    //     $listing->delete();
- 
-    //     return redirect()->back()
-    //         ->with('success', 'Listing was deleted!');
-    // }
+    public function destroy(Listing $listing)
+    {
+        //
+    }
 }

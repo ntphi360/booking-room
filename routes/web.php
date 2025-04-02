@@ -18,11 +18,7 @@ Route::get('/', function () {
 Route::resource('listings', ListingController::class)
   ->only(['index', 'show']);
 
-Route::resource('listings', ListingController::class)
-  ->only(['create', 'store', 'edit', 'update'])
-  ->middleware('auth');
-
-// Auth Routes
+// Auth Routes Login
 Route::controller(AuthController::class)->group(function () {
   Route::get('login', 'create')->name('login');
   Route::post('login', 'store')->name('login.store');
@@ -33,11 +29,11 @@ Route::controller(AuthController::class)->group(function () {
 Route::resource('user-account', UserAccountController::class)
   ->only(['create', 'store']);
 
-// Realtor Listings - Chỉ dành cho realtor (yêu cầu đăng nhập)
+// Realtor Listings 
 Route::prefix('realtor')
   ->name('realtor.')
   ->middleware('auth')
   ->group(function () {
       Route::resource('listings', RealtorListingController::class)
-          ->only(['index', 'destroy']);
+          ->only(['index', 'destroy','edit', 'update','create','store']);
   });
