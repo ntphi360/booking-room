@@ -24,10 +24,13 @@ class RealtorListingController extends BaseController
         // dd($filters);
         return inertia(
             'Realtor/Index',
-            ['listings' => Auth::user()->listings()
-            ->mostRecent()
-            ->filter($filters)
-            ->get()] 
+            [
+            'filters' =>$filters, 
+            'listings' => Auth::user()->listings()
+                ->mostRecent()
+                ->filter($filters)
+                ->get()
+            ] 
         );
     }
     public function destroy(Listing $listing){
