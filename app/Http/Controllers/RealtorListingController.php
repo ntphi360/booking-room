@@ -19,7 +19,7 @@ class RealtorListingController extends BaseController
      
     public function index(Request $request) { 
         $filters = ['deleted' => $request->boolean('deleted'),...$request->only(['by','order'])];
-        $listings = Auth::user()->listings() ->filter($filters)->paginate(5)->withQueryString();
+        $listings = Auth::user()->listings() ->filter($filters)->paginate(6)->withQueryString();
        
         return inertia('Realtor/Index',
         ['filters' => $filters, 'listings' => $listings] );
@@ -61,6 +61,12 @@ class RealtorListingController extends BaseController
         $listing->deleteOrFail();
         return redirect()->back()
         ->with('success', 'Listing was deleted!');
+    }
+    public function restore(Listing $listing)
+    {
+        $listing->restore();
+
+        return redirect()->back()->with('success', 'Listing was restored!');
     }
     
 }
